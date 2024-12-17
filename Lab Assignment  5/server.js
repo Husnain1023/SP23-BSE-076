@@ -23,6 +23,6 @@ server.get("/admin/products/create", (req, res) => {
 });
 
 
-server.listen(5000, () => {
-  console.log(`Server Started at localhost:5000`);
+server.listen(2000, () => {
+  console.log(`Server Started at localhost:2000`);
 });
