@@ -1,0 +1,148 @@
+<style>
+    body {
+        background-color: #f4f4f9; /* Light gray background for contrast */
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h3 {
+        color: #333; /* Neutral dark color for headings */
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .btn-info {
+        display: inline-block;
+        background: linear-gradient(135deg, #6a5acd, #836fff); /* Gradient button color */
+        border: none;
+        border-radius: 20px;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 16px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-info:hover {
+        background: linear-gradient(135deg, #5a4ebd, #6b5edf); /* Slightly darker gradient on hover */
+        transform: translateY(-2px);
+    }
+
+    .btn-container {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border-radius: 10px;
+        
+    }
+
+    .table thead {
+        background-color: #6a5acd; /* Header background color */
+        color: #fff; /* Header text color */
+    }
+
+    .table thead th {
+        padding: 15px;
+        font-size: 16px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: left; /* Left-align header text */
+    }
+
+    .table tbody tr {
+        background-color: #fff;
+        transition: all 0.3s ease;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #f9f9f9; /* Light gray for alternate rows */
+    }
+
+    .table tbody tr:hover {
+        background-color: #f1f1ff; /* Subtle hover effect */
+    }
+
+    .table tbody td {
+        padding: 15px; /* Increase padding for better spacing */
+        text-align: left; /* Left-align all cell content */
+        font-size: 14px;
+        color: #333;
+        vertical-align: middle; /* Align text vertically */
+        word-wrap: break-word; /* Handle long text gracefully */
+    }
+
+    .table tbody td:last-child {
+        display: flex;
+        justify-content: flex-start; /* Align action buttons to the left */
+        gap: 10px;
+    }
+
+    .btn-warning, .btn-danger {
+        border: none;
+        padding: 8px 15px;
+        font-size: 14px;
+        border-radius: 20px;
+        color: #fff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn-warning {
+        background-color: #f4a261; /* Warm orange */
+    }
+
+    .btn-warning:hover {
+        background-color: #e76f51; /* Darker orange */
+        transform: translateY(-2px);
+    }
+
+    .btn-danger {
+        background-color: #e63946; /* Vivid red */
+    }
+
+    .btn-danger:hover {
+        background-color: #d62828; /* Darker red */
+        transform: translateY(-2px);
+    }
+</style>
+
+<h3><%- pageTitle %></h3>
+
+<div class="btn-container">
+    <a href="/admin/category/create" class="btn btn-info">Create New Product</a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Stock</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for (let index = 0; index < category.length; index++) { %>
+            <tr>
+                <td><%= category[index]._id %></td>
+                <td><%= category[index].title %></td>
+                <td><%= category[index].stock %></td>
+                <td><%= category[index].description %></td>
+                <td>
+                    <a href="/admin/category/edit/<%= category[index]._id %>" class="btn btn-warning">Edit</a>
+                    <a href="/admin/category/delete/<%= category[index]._id %>" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        <% } %>
+    </tbody>
+</table>
