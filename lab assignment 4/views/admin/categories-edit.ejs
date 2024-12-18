@@ -1,0 +1,23 @@
+<h4 style="color: brown; size: 40px; font-size: 50px; font-weight: bolder;">Edit Product</h4>
+
+<form action="" method="post">
+    <div class="form-group">
+        <label for="titleInput">Title</label>
+        <input name="title" type="text" class="form-control" id="titleInput" aria-describedby="emailHelp" placeholder="Enter Title" value="<%= category.title %>" />
+        <small id="emailHelp" class="form-text text-muted">Product Title</small>
+    </div>
+      <div class="form-group">
+        <label for="stockInput">Stock</label>
+        <input name="stock" type="text" class="form-control" id="stockInput" aria-describedby="emailHelp" placeholder="Availability" value="<%= category.stock %>">
+        <small id="emailHelp" class="form-text text-muted">Product Price in PKR</small>
+      </div>
+      <div class="form-group">
+        <label for="descriptionInput">Description</label>
+        <textarea name="description" type="text" class="form-control" id="descriptionInput" aria-describedby="emailHelp" placeholder="Enter Description"><%= category.description %> </textarea>
+        <small id="emailHelp" class="form-text text-muted">Product Details</small>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-info" style="background-color: sandybrown; color: whitesmoke; border: solid brown; size: 40px; font-size: 20px; ">Edit New Product</button>
+      </div>
+
+</form>

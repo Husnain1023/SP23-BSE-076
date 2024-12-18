@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Husnain Ahmad</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- MAIN PORTFOLIO PAGE -->
+    <header>
+        <h1>Husnain Ahmad</h1>
+        <p>Explore my work categorized by semester</p>
+    </header>
+
+    <section class="semester-projects">
+        <h2>Semester 1 Projects</h2>
+        <div class="project project1">
+            <img src="/pimage1.jpg" alt="Portfolio Website Image">
+            <h3>Project 1: Responsive Portfolio</h3>
+            <p>Summary: A responsive website portfolio with mobile-friendly design.</p>
+            <button onclick="showProjectDescription('project1')">Show Description</button>
+        </div>
+        <div class="project project2">
+            <img src="/pimage2.png" alt="Task Manager Image">
+            <h3>Project 2: Task Manager App</h3>
+            <p>Summary: A JavaScript task manager to track daily tasks efficiently.</p>
+            <button onclick="showProjectDescription('project2')">Show Description</button>
+        </div>
+    </section>
+
+    <section class="semester-projects">
+        <h2>Semester 2 Projects</h2>
+        <div class="project project3">
+            <img src="/pimage3.jpg" alt="Online Bookstore Image">
+            <h3>Project 3: Online Bookstore</h3>
+            <p>Summary: An e-commerce website for book listings and customer reviews.</p>
+            <button onclick="showProjectDescription('project3')">Show Description</button>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Husnain Ahmad | All rights reserved</p>
+    </footer>
+
+    <!-- Description Page Container -->
+    <div class="description-container" id="description-container" style="display:none;">
+        <h1>Project Description</h1>
+        <p id="project-description">Loading description...</p>
+        <button onclick="backToPortfolio()">Back to Portfolio</button>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
