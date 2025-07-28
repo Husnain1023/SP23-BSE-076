@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rider Dashboard | Bazario</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      color: #fff;
+    }
+
+    /* Animated background with geometric shapes */
+    .bg-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      z-index: -2;
+    }
+
+    .bg-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      background: linear-gradient(45deg, #00d4ff, #0099cc);
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .shape:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; }
+    .shape:nth-child(2) { width: 200px; height: 200px; top: 60%; right: 15%; animation-delay: 2s; }
+    .shape:nth-child(3) { width: 150px; height: 150px; top: 80%; left: 60%; animation-delay: 4s; }
+    .shape:nth-child(4) { width: 250px; height: 250px; top: 20%; right: 40%; animation-delay: 1s; }
+    .shape:nth-child(5) { width: 180px; height: 180px; top: 40%; left: 30%; animation-delay: 3s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-30px) scale(1.1); }
+    }
+
+    /* Grid pattern overlay */
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      z-index: 100;
+    }
+
+    .logo-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: white;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .back-btn {
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .back-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0, 212, 255, 0.3);
+    }
+
+    /* Main content */
+    .main-content {
+      margin-top: 80px;
+      padding: 60px;
+      min-height: calc(100vh - 80px);
+    }
+
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .welcome-title {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.1;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .welcome-subtitle {
+      font-size: 1.2rem;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    /* Orders container */
+    .orders-container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .no-orders {
+      text-align: center;
+      padding: 80px 40px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.1);
+      border-radius: 25px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .no-orders-icon {
+      font-size: 4rem;
+      margin-bottom: 20px;
+      opacity: 0.6;
+    }
+
+    .no-orders h3 {
+      font-size: 1.5rem;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .no-orders p {
+      font-size: 1.1rem;
+      color: #888;
+    }
+
+    /* Table container */
+    .table-container {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.1);
+      border-radius: 25px;
+      padding: 40px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .table-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00d4ff, #0099cc);
+      border-radius: 25px 25px 0 0;
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .orders-table th,
+    .orders-table td {
+      padding: 20px 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .orders-table th {
+      background: rgba(255, 255, 255, 0.08);
+      font-weight: 600;
+      color: #00d4ff;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .orders-table tbody tr {
+      transition: all 0.3s ease;
+    }
+
+    .orders-table tbody tr:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .orders-table td {
+      font-size: 0.95rem;
+      color: #ccc;
+    }
+
+    /* Status styles */
+    .status {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .status.assigned {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+      border: 1px solid rgba(255, 193, 7, 0.3);
+    }
+
+    .status.picked {
+      background: rgba(0, 123, 255, 0.2);
+      color: #007bff;
+      border: 1px solid rgba(0, 123, 255, 0.3);
+    }
+
+    .status.delivered {
+      background: rgba(40, 167, 69, 0.2);
+      color: #28a745;
+      border: 1px solid rgba(40, 167, 69, 0.3);
+    }
+
+    .status.rejected {
+      background: rgba(220, 53, 69, 0.2);
+      color: #dc3545;
+      border: 1px solid rgba(220, 53, 69, 0.3);
+    }
+
+    .status.not-assigned,
+    .status.not-responded {
+      background: rgba(108, 117, 125, 0.2);
+      color: #6c757d;
+      border: 1px solid rgba(108, 117, 125, 0.3);
+    }
+
+    .status.accepted {
+      background: rgba(0, 123, 255, 0.2);
+      color: #007bff;
+      border: 1px solid rgba(0, 123, 255, 0.3);
+    }
+
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 10px 18px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-accept {
+      background: linear-gradient(135deg, #007bff, #0056b3);
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-accept:hover {
+      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4);
+    }
+
+    .btn-reject {
+      background: linear-gradient(135deg, #dc3545, #c82333);
+      color: white;
+      box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    }
+
+    .btn-reject:hover {
+      box-shadow: 0 8px 25px rgba(220, 53, 69, 0.4);
+    }
+
+    .btn-update {
+      background: linear-gradient(135deg, #28a745, #218838);
+      color: white;
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-update:hover {
+      box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+    }
+
+    .status-completed {
+      color: #28a745;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Floating bike */
+    .floating-bike {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      font-size: 3rem;
+      color: #00d4ff;
+      opacity: 0.6;
+      animation: bounce 3s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Responsive design */
+    @media (max-width: 1200px) {
+      .main-content {
+        padding: 40px 30px;
+      }
+      
+      .table-container {
+        padding: 30px 20px;
+        overflow-x: auto;
+      }
+      
+      .orders-table {
+        min-width: 800px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 0 20px;
+      }
+      
+      .main-content {
+        padding: 20px;
+      }
+      
+      .welcome-title {
+        font-size: 2rem;
+      }
+      
+      .table-container {
+        padding: 20px 15px;
+      }
+      
+      .orders-table th,
+      .orders-table td {
+        padding: 15px 10px;
+        font-size: 0.85rem;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome-title {
+        font-size: 1.8rem;
+      }
+      
+      .orders-table {
+        min-width: 600px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="bg-container">
+    <div class="bg-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+  </div>
+  <div class="grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-header">
+      <div class="logo-icon">BZ</div>
+      <div class="logo-text">Bazario</div>
+    </div>
+    <a href="/riderDashboard" class="back-btn">
+      ← Back to Home
+    </a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="welcome-header">
+      <h1 class="welcome-title">
+        Welcome <span class="highlight"><%= rider.name %></span> 🚴‍♂
+      </h1>
+      <p class="welcome-subtitle">Manage your delivery orders and track your progress</p>
+    </div>
+
+    <div class="orders-container">
+      <% if (orders.length === 0) { %>
+        <!-- No orders state -->
+        <div class="no-orders">
+          <div class="no-orders-icon">📦</div>
+          <h3>No Orders Assigned</h3>
+          <p>No orders assigned to you.</p>
+        </div>
+      <% } else { %>
+        <!-- Orders table -->
+        <div class="table-container">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Customer - Phone</th>
+                <th>Address</th>
+                <th>Shop Name</th>
+                <th>Shop Address</th>
+                <th>Delivery Status</th>
+                <th>Rider Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% orders.forEach(order => { %>
+                <tr>
+                  <td><strong><%= order._id %></strong></td>
+                  <td>
+                    <div>
+                      <strong><%= order.customer.name %></strong><br>
+                      <small style="color: #888;">(<%= order.customer.phone %>)</small>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="max-width: 200px;">
+                      <%= order.customer.address %>
+                    </div>
+                  </td>
+                  <td>
+                    <div>
+                      <strong><%= order.shopId?.name %></strong>
+                    </div>
+                  </td>
+                  <td>
+                    <div style="max-width: 200px;">
+                      <small style="color: #888;"><%= order.shopId?.address %></small>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="status <%= order.deliveryStatus %>"><%= order.deliveryStatus %></span>
+                  </td>
+                  <td>
+                    <span class="status <%= order.riderStatus === 'not_assigned' ? 'not-responded' : order.riderStatus %>">
+                      <%= order.riderStatus || 'Not Responded' %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if (order.riderStatus === 'not_assigned') { %>
+                      <div class="action-buttons">
+                        <form action="/rider/order/<%= order._id %>/accept" method="POST" style="display: inline;">
+                          <button class="btn btn-accept" type="submit">Accept</button>
+                        </form>
+                        <form action="/rider/order/<%= order._id %>/reject" method="POST" style="display: inline;" onsubmit="return confirmReject(event, '<%= order._id %>')">
+                          <input type="hidden" name="reason" id="reason-<%= order._id %>">
+                          <button class="btn btn-reject" type="submit">Reject</button>
+                        </form>
+                      </div>
+                    <% } else if (order.riderStatus === 'accepted' && order.deliveryStatus !== 'delivered') { %>
+                      <div class="action-buttons">
+                        <form action="/update-status/<%= order._id %>" method="POST">
+                          <button class="btn btn-update" type="submit">
+                            Mark as <%= order.deliveryStatus === 'assigned' ? 'Picked' : 'Delivered' %>
+                          </button>
+                        </form>
+                      </div>
+                    <% } else if (order.deliveryStatus === 'delivered') { %>
+                      <span class="status-completed">Delivered ✅</span>
+                    <% } else if (order.riderStatus === 'rejected') { %>
+                      <span class="status rejected">Rejected ❌</span>
+                    <% } else { %>
+                      <span class="status">No Action Available</span>
+                    <% } %>
+                  </td>
+                </tr>
+              <% }) %>
+            </tbody>
+          </table>
+        </div>
+      <% } %>
+    </div>
+  </main>
+
+  <!-- Floating bike -->
+  <div class="floating-bike">🚴‍♂</div>
+
+  <script>
+    // Add interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+      // Parallax effect for shapes
+      let mouseX = 0, mouseY = 0;
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = e.clientY / window.innerHeight;
+        
+        const shapes = document.querySelectorAll('.shape');
+        shapes.forEach((shape, index) => {
+          const speed = (index + 1) * 0.02;
+          const x = (mouseX - 0.5) * speed * 100;
+          const y = (mouseY - 0.5) * speed * 100;
+          shape.style.transform = translate(${x}px, ${y}px);
+        });
+      });
+    });
+
+    function confirmReject(event, orderId) {
+      event.preventDefault();
+      const reason = prompt("Please enter a reason for rejecting the order:");
+      if (reason === null || reason.trim() === "") {
+        alert("Rejection reason is required.");
+        return false;
+      }
+      document.getElementById('reason-' + orderId).value = reason;
+      event.target.submit();
+    }
+  </script>
+</body>
+</html>

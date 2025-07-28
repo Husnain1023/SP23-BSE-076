@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Products from Shop</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, #0f0f0f, #1a1a1a);
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px 60px;
+    }
+
+    h2.text-center {
+      font-size: 2.8rem;
+      color: #ff3c3c;
+      text-align: center;
+      margin-bottom: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    }
+
+    .alert-info {
+      background-color: #1a1a1a;
+      border: 1px solid #333;
+      padding: 24px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      text-align: center;
+      color: #bbb;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: #121212;
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 14px rgba(255, 0, 0, 0.3);
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 6px 18px rgba(255, 0, 0, 0.5);
+    }
+
+    .card-img-wrapper {
+      background-color: #000;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .card-img-top {
+      max-height: 180px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .card-body {
+      background-color: #121212;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff4d4d;
+    }
+
+    .card-text {
+      font-size: 1rem;
+      color: #ccc;
+      line-height: 1.4;
+    }
+
+    .card-price {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fbbf24;
+      margin-top: 0;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #ff1a1a, #b30000);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #cc0000, #990000);
+      box-shadow: 0 0 15px rgba(255, 0, 0, 0.6);
+    }
+
+    .btn-primary i {
+      margin-right: 6px;
+    }
+
+    .btn-success {
+      background: #22c55e;
+      color: #000;
+      font-weight: bold;
+    }
+
+    .btn-success:hover {
+      background: #16a34a;
+    }
+
+    .btn-danger {
+      background: #ef4444;
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .navbar {
+      background: #1a1a1a;
+      padding: 16px 30px;
+      box-shadow: 0 2px 12px rgba(255, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-brand {
+      color: #ff3c3c;
+      font-size: 1.8rem;
+      font-weight: bold;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-nav {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-link {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: #fbbf24;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-brand">
+      <i class="fas fa-store"></i> BAZARIO
+    </a>
+    <div class="navbar-nav">
+      <a href="/" class="nav-link">Home</a>
+      <a href="/" class="nav-link">Contact</a>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">
+      <i class="fas fa-store"></i> Products from <%= shop.name %>
+    </h2>
+
+    <% if (products.length === 0) { %>
+      <div class="alert-info">
+        <i class="fas fa-info-circle"></i> No products listed for this shop.
+      </div>
+    <% } else { %>
+      <div class="product-grid">
+        <% products.forEach(product => { %>
+          <div class="card">
+            <div class="card-img-wrapper">
+              <% if (product.picture) { %>
+                <img src="/<%= product.picture %>" class="card-img-top" alt="<%= product.title %>" loading="lazy" />
+              <% } else { %>
+                <img src="https://via.placeholder.com/400x200?text=No+Image" class="card-img-top" alt="No Image" loading="lazy" />
+              <% } %>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title"><%= product.title %></h5>
+              <p class="card-text"><%= product.description.length > 100 ? product.description.substring(0, 97) + '...' : product.description %></p>
+              <p class="card-price">PKR <%= product.price %></p>
+              <% if (product.stock >= 1) { %>
+                <button class="btn btn-success" disabled>
+                  <i class="fas fa-check-circle"></i> Available
+                </button>
+                <div>
+                  <a href="/add-to-cart/<%= product._id %>" class="btn btn-primary">
+                    <i class="fas fa-cart-plus"></i> Add To Cart
+                  </a>
+                </div>
+              <% } else { %>
+                <button class="btn btn-danger" disabled>
+                  <i class="fas fa-times-circle"></i> Not Available
+                </button>
+              <% } %>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

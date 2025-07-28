@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Panel - Shop Owners</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <!-- AOS (Animate on Scroll) CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background: url('/ap.avif') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #f8f9fa;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.95);
+      box-shadow: 0 2px 8px rgba(255, 0, 0, 0.5);
+      padding: 0.75rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #ff4444;
+      text-shadow: 0 0 6px #ff4444cc;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 1.8rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li a {
+      color: #f8f9fa;
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 1rem;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: #ff4444;
+      color: #000000;
+    }
+
+    .admin-panel-container {
+      max-width: 1200px;
+      margin: 3rem auto 5rem auto;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.85);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(255, 0, 0, 0.5);
+      color: #f8f9fa;
+    }
+
+    .admin-panel-container h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      color: #ff4444;
+      text-shadow: 0 0 6px #ff4444cc;
+    }
+
+    .styled-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 12px;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.15);
+      border-radius: 12px;
+      background-color: #0f0f0f;
+    }
+
+    .styled-table thead tr {
+      background-color: #1a1a1a;
+      color: #ff4444;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      font-size: 0.95rem;
+      border-bottom: 1px solid transparent;
+      max-width: 160px;
+      word-wrap: break-word;
+    }
+
+    .styled-table tbody tr:hover {
+      background-color: #1f1f1f;
+      cursor: pointer;
+    }
+
+    .payment-status.paid {
+      color: #22c55e;
+      font-weight: 700;
+    }
+
+    .payment-status.unpaid {
+      color: #ef4444;
+      font-weight: 700;
+    }
+
+    .status {
+      padding: 0.25rem 0.7rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-align: center;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .status.pending {
+      background-color: #ffbb0044;
+      color: #fff;
+    }
+
+    .status.approved {
+      background-color: #22c55e44;
+      color: #22c55e;
+    }
+
+    .status.rejected {
+      background-color: #ef444444;
+      color: #ef4444;
+    }
+
+    .shop-images img {
+      height: 50px;
+      width: auto;
+      border-radius: 6px;
+      box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+      margin: 0 4px 4px 0;
+      object-fit: contain;
+    }
+
+    .btn-approve,
+    .btn-reject {
+      border: none;
+      padding: 10px 20px;
+      font-weight: 700;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 0, 0, 0.2);
+    }
+
+    .btn-approve {
+      background: linear-gradient(to right, #22c55e, #15803d);
+      color: #fff;
+    }
+
+    .btn-reject {
+      background: linear-gradient(to right, #ef4444, #991b1b);
+      color: #fff;
+    }
+
+    .btn-approve:hover,
+    .btn-reject:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 20px rgba(255, 255, 255, 0.2);
+    }
+
+    tbody {
+      display: block;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    thead,
+    tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">AdminPanel</div>
+    <ul>
+      <li><a href="/admin/dashboard" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+    </ul>
+  </nav>
+
+  <div class="admin-panel-container" data-aos="fade-up">
+    <h1 data-aos="zoom-in">Shop Owners Management</h1>
+
+    <table id="shopsTable" class="styled-table" data-aos="fade-up" data-aos-delay="200">
+      <thead>
+        <tr>
+          <th>Shop Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Logo</th>
+          <th>Pictures</th>
+          <th>Banners</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let index = 0; index < newshop.length; index++) { %>
+        <tr data-aos="fade-up" data-aos-delay="<%= index * 100 %>">
+          <td><%= newshop[index].name %></td>
+          <td><%= newshop[index].email %></td>
+          <td><%= newshop[index].phone %></td>
+          <td class="shop-images">
+            <img src="/<%= newshop[index].logo %>" alt="Logo" />
+          </td>
+          <td class="shop-images">
+            <% newshop[index].pictures.forEach(pic => { %>
+              <img src="/<%= pic %>" alt="Picture" />
+            <% }) %>
+          </td>
+          <td class="shop-images">
+            <% newshop[index].banners.forEach(ban => { %>
+              <img src="/<%= ban %>" alt="Banner" />
+            <% }) %>
+          </td>
+          <td>
+            <span class="status <%= newshop[index].status %>">
+              <%= newshop[index].status.charAt(0).toUpperCase() + newshop[index].status.slice(1) %>
+            </span>
+          </td>
+          <td>
+            <% if (newshop[index].status === 'pending') { %>
+              <form method="POST" action="/admin/approve-shop/<%= newshop[index]._id %>" style="display:inline;">
+                <button class="btn-approve" title="Approve">
+                  <i class="fas fa-check"></i> Approve
+                </button>
+              </form>
+              <form method="POST" action="/admin/reject-shop/<%= newshop[index]._id %>" style="display:inline;">
+                <button class="btn-reject" title="Reject">
+                  <i class="fas fa-times"></i> Reject
+                </button>
+              </form>
+            <% } else { %>
+              <em style="color:#888">No actions</em>
+            <% } %>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- AOS JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+  </script>
+</body>
+</html>

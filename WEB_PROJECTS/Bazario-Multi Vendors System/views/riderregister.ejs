@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rider Registration | Bazario</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0a0a0a;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Animated background with geometric shapes */
+    .bg-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      z-index: -2;
+    }
+
+    .bg-shapes {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    .shape {
+      position: absolute;
+      background: linear-gradient(45deg, #00d4ff, #0099cc);
+      opacity: 0.1;
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .shape:nth-child(1) { width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s; }
+    .shape:nth-child(2) { width: 200px; height: 200px; top: 60%; right: 15%; animation-delay: 2s; }
+    .shape:nth-child(3) { width: 150px; height: 150px; top: 80%; left: 60%; animation-delay: 4s; }
+    .shape:nth-child(4) { width: 250px; height: 250px; top: 20%; right: 40%; animation-delay: 1s; }
+    .shape:nth-child(5) { width: 180px; height: 180px; top: 40%; left: 30%; animation-delay: 3s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) scale(1); }
+      50% { transform: translateY(-30px) scale(1.1); }
+    }
+
+    /* Grid pattern overlay */
+    .grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 212, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 60px;
+      z-index: 100;
+    }
+
+    .logo-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: white;
+      box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    /* Main registration container */
+    .registration-container {
+      margin-top: 80px;
+      padding: 60px;
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .registration-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 1200px;
+      width: 100%;
+    }
+
+    /* Welcome section - smaller now */
+    .welcome-section {
+      flex: 0 0 400px;
+      padding: 40px;
+      margin-right: 40px;
+    }
+
+    .welcome-title {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+
+    .welcome-subtitle {
+      font-size: 1.1rem;
+      color: #888;
+      line-height: 1.6;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Registration box - larger now */
+    .registration-box {
+      flex: 1;
+      max-width: 700px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(0, 212, 255, 0.1);
+      border-radius: 25px;
+      padding: 60px 50px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      position: relative;
+      color: white;
+    }
+
+    .registration-box::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #00d4ff, #0099cc);
+      border-radius: 25px 25px 0 0;
+    }
+
+    .registration-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .registration-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      color: white;
+      margin: 0 auto 20px;
+      box-shadow: 0 15px 35px rgba(0, 212, 255, 0.3);
+    }
+
+    .registration-title {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .registration-subtitle {
+      font-size: 1rem;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    /* Form styles */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #ccc;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 18px 20px;
+      border: 1px solid rgba(0, 212, 255, 0.2);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #00d4ff;
+      box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .form-input::placeholder {
+      color: #666;
+    }
+
+    .password-strength {
+      margin-top: 8px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .strength-bar {
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 5px;
+      overflow: hidden;
+    }
+
+    .strength-fill {
+      height: 100%;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 20px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 15px 35px rgba(0, 212, 255, 0.2);
+      margin-bottom: 25px;
+    }
+
+    .register-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px rgba(0, 212, 255, 0.3);
+    }
+
+    .register-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .login-link {
+      text-align: center;
+      font-size: 0.95rem;
+      color: #888;
+    }
+
+    .login-link a {
+      color: #00d4ff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .login-link a:hover {
+      color: #0099cc;
+      text-decoration: underline;
+    }
+
+    /* Floating bike */
+    .floating-bike {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      font-size: 4rem;
+      color: #00d4ff;
+      opacity: 0.6;
+      animation: bounce 3s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-15px); }
+    }
+
+    /* Glow effects */
+    .glow {
+      position: relative;
+    }
+
+    .glow::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      background: linear-gradient(45deg, #00d4ff, #0099cc, #00d4ff);
+      border-radius: inherit;
+      z-index: -1;
+      filter: blur(10px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .glow:hover::before {
+      opacity: 0.7;
+    }
+
+    /* Responsive design */
+    @media (max-width: 1200px) {
+      .registration-wrapper {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .welcome-section {
+        flex: none;
+        margin-right: 0;
+        margin-bottom: 40px;
+      }
+      
+      .welcome-title {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .registration-box {
+        padding: 40px 30px;
+      }
+      
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .welcome-title {
+        font-size: 2rem;
+      }
+      
+      .registration-title {
+        font-size: 1.8rem;
+      }
+      
+      .header {
+        padding: 0 20px;
+      }
+      
+      .registration-container {
+        padding: 20px;
+      }
+
+      .welcome-section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background -->
+  <div class="bg-container">
+    <div class="bg-shapes">
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+      <div class="shape"></div>
+    </div>
+  </div>
+  <div class="grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo-header">
+      <div class="logo-icon">BZ</div>
+      <div class="logo-text">Bazario</div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="registration-container">
+    <div class="registration-wrapper">
+      <!-- Welcome Section -->
+      <div class="welcome-section">
+        <h1 class="welcome-title">
+          Join Our<br>
+          <span class="highlight">Elite Riders</span>
+        </h1>
+        <p class="welcome-subtitle">
+          Become part of Bazario's premium delivery network. Register now to start your journey with us.
+        </p>
+      </div>
+
+      <!-- Registration Section -->
+      <div class="registration-box glow">
+        <div class="registration-header">
+          <div class="registration-icon">🚴‍♂</div>
+          <h2 class="registration-title">Create Account</h2>
+          <p class="registration-subtitle">Fill in your details to join the Bazario family</p>
+        </div>
+
+        <form action="/rider/register" method="POST" autocomplete="off">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name" class="form-label">Name</label>
+              <input 
+                type="text" 
+                id="name" 
+                name="name" 
+                class="form-input" 
+                placeholder="Enter your name"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                class="form-input" 
+                placeholder="Enter your email"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="phone" class="form-label">Phone</label>
+              <input 
+                type="text" 
+                id="phone" 
+                name="phone" 
+                class="form-input" 
+                placeholder="Enter your phone number"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="city" class="form-label">City</label>
+              <input 
+                type="text" 
+                id="city" 
+                name="city" 
+                class="form-input" 
+                placeholder="Enter your city"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="password" class="form-label">Password</label>
+              <input 
+                type="password" 
+                id="password" 
+                name="password" 
+                class="form-input" 
+                placeholder="Create a password"
+                required
+              >
+              <div class="password-strength">
+                <div class="strength-bar">
+                  <div class="strength-fill" id="strengthFill"></div>
+                </div>
+                <span id="strengthText">Password strength</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password2" class="form-label">Confirm Password</label>
+              <input 
+                type="password" 
+                id="password2" 
+                name="password2" 
+                class="form-input" 
+                placeholder="Confirm your password"
+                required
+              >
+            </div>
+          </div>
+
+          <button type="submit" class="register-btn">
+            Register
+          </button>
+        </form>
+
+        <div class="login-link">
+          Already have an account? <a href="/rider/login">Login here</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating bike -->
+  <div class="floating-bike">🚴‍♂</div>
+
+  <script>
+    // Add interactive effects
+    document.addEventListener('DOMContentLoaded', function() {
+      // Form animations
+      const inputs = document.querySelectorAll('.form-input');
+      inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+          this.parentElement.style.transform = 'translateY(-2px)';
+        });
+        input.addEventListener('blur', function() {
+          this.parentElement.style.transform = '';
+        });
+      });
+
+      // Password strength checker
+      const passwordInput = document.getElementById('password');
+      const strengthFill = document.getElementById('strengthFill');
+      const strengthText = document.getElementById('strengthText');
+
+      passwordInput.addEventListener('input', function() {
+        const password = this.value;
+        let strength = 0;
+        let strengthLabel = '';
+        let strengthColor = '';
+
+        if (password.length >= 8) strength++;
+        if (/[a-z]/.test(password)) strength++;
+        if (/[A-Z]/.test(password)) strength++;
+        if (/[0-9]/.test(password)) strength++;
+        if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+        switch (strength) {
+          case 0:
+          case 1:
+            strengthLabel = 'Weak';
+            strengthColor = '#ff4444';
+            break;
+          case 2:
+          case 3:
+            strengthLabel = 'Medium';
+            strengthColor = '#ffaa00';
+            break;
+          case 4:
+          case 5:
+            strengthLabel = 'Strong';
+            strengthColor = '#00d4ff';
+            break;
+        }
+
+        strengthFill.style.width = ${(strength / 5) * 100}%;
+        strengthFill.style.background = strengthColor;
+        strengthText.textContent = password.length > 0 ? strengthLabel : 'Password strength';
+        strengthText.style.color = strengthColor;
+      });
+
+      // Password confirmation validation
+      const confirmPassword = document.getElementById('password2');
+      confirmPassword.addEventListener('input', function() {
+        if (this.value !== passwordInput.value) {
+          this.style.borderColor = '#ff4444';
+        } else {
+          this.style.borderColor = '#00d4ff';
+        }
+      });
+
+      // Button click effect
+      const registerBtn = document.querySelector('.register-btn');
+      registerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Basic validation
+        const form = document.querySelector('form');
+        const formData = new FormData(form);
+        
+        if (formData.get('password') !== formData.get('password2')) {
+          alert('Passwords do not match!');
+          return;
+        }
+
+        this.style.transform = 'scale(0.98)';
+        this.innerHTML = 'Creating Account...';
+        
+        setTimeout(() => {
+          this.style.transform = '';
+          this.innerHTML = 'Register';
+          // Here you would normally submit the form
+          form.submit();
+        }, 1500);
+      });
+
+      // Parallax effect for shapes
+      let mouseX = 0, mouseY = 0;
+      document.addEventListener('mousemove', function(e) {
+        mouseX = e.clientX / window.innerWidth;
+        mouseY = e.clientY / window.innerHeight;
+        
+        const shapes = document.querySelectorAll('.shape');
+        shapes.forEach((shape, index) => {
+          const speed = (index + 1) * 0.02;
+          const x = (mouseX - 0.5) * speed * 100;
+          const y = (mouseY - 0.5) * speed * 100;
+          shape.style.transform = translate(${x}px, ${y}px);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
